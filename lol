@@ -7,7 +7,7 @@ local Window = OrionLib:MakeWindow({
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "OrionTest",
-    IntroText = "Loading Script...."
+    IntroText = "Loading Script..."
 })
 
 local Codes = {
@@ -85,7 +85,7 @@ Tab:AddButton({
         if ScreenGui and ScreenGui:FindFirstChild("Codes") then
             local CodesUI = ScreenGui.Codes.Main
             local InputBox = CodesUI.Input.TextBox
-            local RedeemButton = CodesUI.Redeem -- Fixed spelling from "Reedeem" to "Redeem"
+            local RedeemButton = CodesUI.Redeem.TextButton -- Fixed spelling from "Reedeem" to "Redeem"
             
             for _, code in ipairs(Codes) do
                 -- Set the text in the input box
