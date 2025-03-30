@@ -129,15 +129,17 @@ local function updatePlayerList()
         table.insert(playerNames, player.Name)
     end
 
-    -- Update the dropdown with the current player names
-    Tab:UpdateDropdown({
-        Name = "Select Player",
-        Options = playerNames
-    })
+    -- Ensure the dropdown updates with the current player names
+    if Tab:FindFirstChild("Select Player") then
+        Tab:UpdateDropdown({
+            Name = "Select Player",
+            Options = playerNames
+        })
+    end
 end
 
 -- Dropdown to select a player
-Tab:AddDropdown({
+local playerDropdown = Tab:AddDropdown({
     Name = "Select Player",
     Default = nil,
     Options = {},  -- This will be populated dynamically
@@ -222,6 +224,11 @@ Tab:AddButton({
 
 -- Initialize player list on script start
 updatePlayerList()
+
+-- Update player list when a player joins or leaves
+Players.PlayerAdded:Connect(updatePlayerList)
+Players.PlayerRemoved:Connect(updatePlayerList)
+
 
 
         
