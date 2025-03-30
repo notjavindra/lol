@@ -78,6 +78,62 @@ spawn(function()
     end
 end)
 
+Tab:AddToggle({
+    Name = "Noclip",
+    Default = false,
+    Callback = function(Value)
+        local NoClipEnabled = Value
+        local Player = game.Players.LocalPlayer
+        local RunService = game:GetService("RunService")
+        
+        local NoClipConnection
+        
+        if NoClipEnabled then
+            -- Enable Noclip
+            NoClipConnection = RunService.Stepped:Connect(function()
+                if Player.Character then
+                    for _, part in pairs(Player.Character:GetDescendants()) do
+                        if part:IsA("BasePart") and part.CanCollide then
+                            part.CanCollide = false
+                        end
+                    end
+                end
+            end)
+            
+            OrionLib:MakeNotification({
+                Name = "Noclip",
+                Content = "Noclip Enabled",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
+        else
+            -- Disable Noclip
+            if NoClipConnection then
+                NoClipConnection:Disconnect()
+                NoClipConnection = nil
+            end
+            
+            -- Reset collision
+            if Player.Character then
+                for _, part in pairs(Player.Character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+                        part.CanCollide = true
+                    end
+                end
+            end
+            
+            OrionLib:MakeNotification({
+                Name = "Noclip",
+                Content = "Noclip Disabled",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
+        end
+    end
+})
+
+
+
 Tab:AddButton({
     Name = "Auto Redeem Codes",
     Callback = function()
