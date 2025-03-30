@@ -25,7 +25,7 @@ local Codes = {
 -- Notification Upon Login
 OrionLib:MakeNotification({
     Name = "Logged In!",
-    Content = "Enjoy " .. Player.Name .. "!",
+    Content = "Enjoy " .. Player.Name .. "!!",
     Image = "rbxassetid://4483345998",
     Time = 5
 })
@@ -85,12 +85,16 @@ Tab:AddButton({
         if ScreenGui and ScreenGui:FindFirstChild("Codes") then
             local CodesUI = ScreenGui.Codes.Main
             local InputBox = CodesUI.Input.TextBox
-            local RedeemButton = CodesUI.Redeem.TextButton
-            
+            local RedeemButton = CodesUI.Reedeem -- Make sure the button name is correct!
+
             for _, code in ipairs(Codes) do
                 InputBox.Text = code
                 wait(0.5) -- Small delay to simulate input
-                RedeemButton.MouseButton1Click:Fire() -- Properly press the button
+
+                -- Simulate button press using UserInputService
+                local UIS = game:GetService("UserInputService")
+                UIS.InputBegan:Fire(Enum.UserInputType.MouseButton1) -- Simulate left click
+                
                 wait(1) -- Wait for redemption to process
             end
         else
@@ -102,7 +106,7 @@ Tab:AddButton({
             })
         end
     end    
-})  
+})
 
 
 -- Initialize UI
