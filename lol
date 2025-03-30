@@ -10,8 +10,6 @@ local Window = OrionLib:MakeWindow({
     IntroText = "Loading Script..."       
 })
 
-
-
 -- Notification Upon Login
 OrionLib:MakeNotification({
     Name = "Logged In!",
@@ -54,6 +52,45 @@ Tab:AddTextbox({
 })
 
 
+-- Fly Toggle
+local flying = false
+local speed = 0.5
+local bodyGyro, bodyVelocity
+
+local function toggleFly()
+    if not flying then
+        flying = true
+        local character = Player.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            local hrp = character.HumanoidRootPart
+            bodyGyro = Instance.new("BodyGyro")
+            bodyGyro.MaxTorque = Vector3.new(400000, 400000, 400000)
+            bodyGyro.CFrame = hrp.CFrame
+            bodyGyro.Parent = hrp
+
+            bodyVelocity = Instance.new("BodyVelocity")
+            bodyVelocity.MaxForce = Vector3.new(400000, 400000, 400000)
+            bodyVelocity.Velocity = Vector3.new(0, speed, 0)
+            bodyVelocity.Parent = hrp
+        end
+    else
+        flying = false
+        if bodyGyro then bodyGyro:Destroy() end
+        if bodyVelocity then bodyVelocity:Destroy() end
+    end
+end
+
+Tab:AddToggle({
+    Name = "Fly Toggle",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            toggleFly()
+        else
+            toggleFly()
+        end
+    end
+})
 
 -- Initialize UI
 OrionLib:Init()
