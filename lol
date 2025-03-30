@@ -25,7 +25,7 @@ local Codes = {
 -- Notification Upon Login
 OrionLib:MakeNotification({
     Name = "Logged In!",
-    Content = "Enjoy " .. Player.Name .. ".",
+    Content = "Enjoy " .. Player.Name .. "!",
     Image = "rbxassetid://4483345998",
     Time = 5
 })
@@ -78,7 +78,6 @@ spawn(function()
     end
 end)
 
--- Auto Redeem Codes Button
 Tab:AddButton({
     Name = "Auto Redeem Codes",
     Callback = function()
@@ -91,7 +90,7 @@ Tab:AddButton({
             for _, code in ipairs(Codes) do
                 InputBox.Text = code
                 wait(0.5) -- Small delay to simulate input
-                fireclickdetector(RedeemButton) -- Simulating button press
+                RedeemButton.MouseButton1Click:Fire() -- Properly press the button
                 wait(1) -- Wait for redemption to process
             end
         else
@@ -104,6 +103,7 @@ Tab:AddButton({
         end
     end    
 })  
+
 
 -- Initialize UI
 OrionLib:Init()
