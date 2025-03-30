@@ -10,10 +10,7 @@ local Window = OrionLib:MakeWindow({
     IntroText = "Loading Script..."       
 })
 
--- Function to Load External Script
-function MakeScriptHub()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/GhostPlayer352/Test4/main/GhostHub'))()
-end
+
 
 -- Notification Upon Login
 OrionLib:MakeNotification({
@@ -56,13 +53,7 @@ Tab:AddTextbox({
     end  
 })
 
--- Button to Load Script Hub
-Tab:AddButton({
-    Name = "Load Script Hub",
-    Callback = function()
-        MakeScriptHub()
-    end
-})
+
 
 -- Initialize UI
 OrionLib:Init()
