@@ -37,6 +37,9 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local WalkSpeedValue = 16 -- Default WalkSpeed
+local JumpPowerValue = 50 -- Default JumpPower
+
 -- WalkSpeed Textbox
 Tab:AddTextbox({
     Name = "WalkSpeed",
@@ -44,8 +47,8 @@ Tab:AddTextbox({
     TextDisappear = true,
     Callback = function(Value)
         local number = tonumber(Value)
-        if number and Player.Character and Player.Character:FindFirstChild("Humanoid") then
-            Player.Character.Humanoid.WalkSpeed = number
+        if number then
+            WalkSpeedValue = number
         end
     end  
 })
@@ -57,11 +60,23 @@ Tab:AddTextbox({
     TextDisappear = true,
     Callback = function(Value)
         local number = tonumber(Value)
-        if number and Player.Character and Player.Character:FindFirstChild("Humanoid") then
-            Player.Character.Humanoid.JumpPower = number
+        if number then
+            JumpPowerValue = number
         end
     end  
 })
+
+-- Loop to constantly apply WalkSpeed and JumpPower
+spawn(function()
+    while true do
+        if Player.Character and Player.Character:FindFirstChild("Humanoid") then
+            local Humanoid = Player.Character.Humanoid
+            Humanoid.WalkSpeed = WalkSpeedValue
+            Humanoid.JumpPower = JumpPowerValue
+        end
+        wait(0.5) -- Update every 0.5 seconds
+    end
+end)
 
 -- Auto Redeem Codes Button
 Tab:AddButton({
