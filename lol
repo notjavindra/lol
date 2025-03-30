@@ -74,7 +74,7 @@ spawn(function()
             Humanoid.WalkSpeed = WalkSpeedValue
             Humanoid.JumpPower = JumpPowerValue
         end
-        wait(000000000000000000000000000.1) 
+        wait(0.0)
     end
 end)
 
@@ -85,23 +85,24 @@ Tab:AddButton({
         if ScreenGui and ScreenGui:FindFirstChild("Codes") then
             local CodesUI = ScreenGui.Codes.Main
             local InputBox = CodesUI.Input.TextBox
-            local RedeemButton = CodesUI.Redeem.TextButton -- Fixed spelling from "Reedeem" to "Redeem"
+            local RedeemButton = CodesUI.Redeem.TextButton -- Make sure the button name matches your UI
             
             for _, code in ipairs(Codes) do
                 -- Set the text in the input box
                 InputBox.Text = code
                 wait(0.5) -- Small delay to ensure text is set
                 
-                -- Fire the button's click events
-                -- This is a more reliable approach than using UIS
-                local clickEvent = RedeemButton.MouseButton1Click
-                if clickEvent then
-                    clickEvent:Fire()
-                else
-                    -- Alternative method if the first doesn't work
-                    for _, connection in pairs(getconnections(RedeemButton.MouseButton1Click)) do
-                        connection:Fire()
-                    end
+                -- Use fireproximityprompt or just simulate a click using proper method
+                -- Method 1: Using FireButton function if it's a TextButton
+                if RedeemButton:IsA("TextButton") or RedeemButton:IsA("ImageButton") then
+                    -- This will simulate the button being clicked
+                    RedeemButton.MouseButton1Down:Connect(function() end):Disconnect()
+                    RedeemButton.MouseButton1Up:Connect(function() end):Disconnect()
+                end
+                
+                -- Method 2: Using getconnections (more reliable)
+                for _, connection in pairs(getconnections(RedeemButton.MouseButton1Click)) do
+                    connection.Function()
                 end
                 
                 -- Add notification for each code attempt
