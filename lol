@@ -122,6 +122,7 @@ local Players = game:GetService("Players")
 local SelectedPlayer = nil -- Track the selected player
 
 -- Function to get and update the player list
+
 local function updatePlayerList()
     local playerNames = {}
 
@@ -129,13 +130,11 @@ local function updatePlayerList()
         table.insert(playerNames, player.Name)
     end
 
-    -- Ensure the dropdown updates with the current player names
-    if Tab:FindFirstChild("Select Player") then
-        Tab:UpdateDropdown({
-            Name = "Select Player",
-            Options = playerNames
-        })
-    end
+    -- Update the dropdown with current player names
+    playerDropdown:UpdateDropdown({
+        Name = "Select Player",
+        Options = playerNames
+    })
 end
 
 -- Dropdown to select a player
