@@ -7,7 +7,7 @@ local Window = OrionLib:MakeWindow({
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "OrionTest",
-    IntroText = "Loading Script..."
+    IntroText = "Loading Script...."
 })
 
 local Codes = {
