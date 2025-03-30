@@ -70,7 +70,7 @@ Tab:AddButton({
         local ScreenGui = Player.PlayerGui:FindFirstChild("ScreenGui")
         if ScreenGui and ScreenGui:FindFirstChild("Codes") then
             local CodesUI = ScreenGui.Codes.Main
-            local InputBox = CodesUI.Input.Textbox
+            local InputBox = CodesUI.Input.TextBox
             local RedeemButton = CodesUI.Reedeem.TextButton
             
             for _, code in ipairs(Codes) do
