@@ -74,7 +74,7 @@ spawn(function()
             Humanoid.WalkSpeed = WalkSpeedValue
             Humanoid.JumpPower = JumpPowerValue
         end
-        wait(0.5) -- Update every 0.5 seconds
+        wait(000000000000000000000000000.1) 
     end
 end)
 
@@ -85,18 +85,42 @@ Tab:AddButton({
         if ScreenGui and ScreenGui:FindFirstChild("Codes") then
             local CodesUI = ScreenGui.Codes.Main
             local InputBox = CodesUI.Input.TextBox
-            local RedeemButton = CodesUI.Redeem -- Make sure the button name is correct!
-
+            local RedeemButton = CodesUI.Redeem -- Fixed spelling from "Reedeem" to "Redeem"
+            
             for _, code in ipairs(Codes) do
+                -- Set the text in the input box
                 InputBox.Text = code
-                wait(0.5) -- Small delay to simulate input
-
-                -- Simulate button press using UserInputService
-                local UIS = game:GetService("UserInputService")
-                UIS.InputBegan:Fire(Enum.UserInputType.MouseButton1) -- Simulate left click
+                wait(0.5) -- Small delay to ensure text is set
                 
-                wait(1) -- Wait for redemption to process
+                -- Fire the button's click events
+                -- This is a more reliable approach than using UIS
+                local clickEvent = RedeemButton.MouseButton1Click
+                if clickEvent then
+                    clickEvent:Fire()
+                else
+                    -- Alternative method if the first doesn't work
+                    for _, connection in pairs(getconnections(RedeemButton.MouseButton1Click)) do
+                        connection:Fire()
+                    end
+                end
+                
+                -- Add notification for each code attempt
+                OrionLib:MakeNotification({
+                    Name = "Code Attempted",
+                    Content = "Tried code: " .. code,
+                    Image = "rbxassetid://4483345998",
+                    Time = 2
+                })
+                
+                wait(1.5) -- Wait for redemption to process before trying next code
             end
+            
+            OrionLib:MakeNotification({
+                Name = "Success",
+                Content = "All codes have been attempted!",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
         else
             OrionLib:MakeNotification({
                 Name = "Error",
@@ -107,7 +131,6 @@ Tab:AddButton({
         end
     end    
 })
-
 
 -- Initialize UI
 OrionLib:Init()
