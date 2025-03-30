@@ -86,15 +86,34 @@ spawn(function()
     end
 end)
 
+local AutoSpin = false -- Variable to track toggle state
+
 Tab:AddToggle({
     Name = "Auto Spin",
     Default = false,
     Callback = function(Value)
-        if Value then
-            while Value do
-                game.ReplicatedStorage.Remotes.Spin:FireServer()
-                wait(0.5) -- Adjust the delay as needed
-            end
+        AutoSpin = Value -- Update toggle state
+
+        if AutoSpin then
+            spawn(function()
+                while AutoSpin do
+                    local success, response = pcall(function()
+                        return game.ReplicatedStorage.Remotes.Spin:InvokeServer()
+                    end)
+
+                    -- Optional: Add a notification if the spin fails
+                    if not success then
+                        OrionLib:MakeNotification({
+                            Name = "Spin Failed",
+                            Content = "Error: " .. tostring(response),
+                            Image = "rbxassetid://4483345998",
+                            Time = 3
+                        })
+                    end
+
+                    wait(1) -- Adjust delay to prevent excessive server calls
+                end
+            end)
         end
     end
 })
