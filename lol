@@ -118,27 +118,50 @@ Tab:AddToggle({
     end
 })
 
+local Players = game:GetService("Players")
+
+Tab:AddDropdown({
+    Name = "Select Player",
+    Default = nil,
+    Options = {},
+    Callback = function(Value)
+        SelectedPlayer = Value -- Store selected player
+    end
+})
+
 Tab:AddButton({
-    Name = "AddStat",
+    Name = "Refresh Player List",
     Callback = function()
-        local RemoteEvent = game.ReplicatedStorage.Remotes:FindFirstChild("AddStat")
+        local playerNames = {}
 
-        if RemoteEvent and RemoteEvent:IsA("RemoteEvent") then
-            local success, response = pcall(function()
-                return RemoteEvent:FireServer()
-            end)
+        for _, player in ipairs(Players:GetPlayers()) do
+            table.insert(playerNames, player.Name)
+        end
 
-            if success then
+        Tab:UpdateDropdown({
+            Name = "Select Player",
+            Options = playerNames
+        })
+    end
+})
+
+Tab:AddButton({
+    Name = "Kill Player",
+    Callback = function()
+        if SelectedPlayer then
+            local RemoteFunction = game.ReplicatedStorage.Remotes:FindFirstChild("Kill")
+            if RemoteFunction and RemoteFunction:IsA("RemoteFunction") then
+                RemoteFunction:InvokeServer(Players[SelectedPlayer])
                 OrionLib:MakeNotification({
                     Name = "Success",
-                    Content = "Kill command executed!",
+                    Content = "Killed " .. SelectedPlayer,
                     Image = "rbxassetid://4483345998",
                     Time = 3
                 })
             else
                 OrionLib:MakeNotification({
                     Name = "Error",
-                    Content = "Failed: " .. tostring(response),
+                    Content = "Kill function not found!",
                     Image = "rbxassetid://4483345998",
                     Time = 3
                 })
@@ -146,13 +169,46 @@ Tab:AddButton({
         else
             OrionLib:MakeNotification({
                 Name = "Error",
-                Content = "Kill function not found!",
+                Content = "No player selected!",
                 Image = "rbxassetid://4483345998",
                 Time = 3
             })
         end
     end
 })
+
+Tab:AddButton({
+    Name = "Kick Player",
+    Callback = function()
+        if SelectedPlayer then
+            local RemoteFunction = game.ReplicatedStorage.Remotes:FindFirstChild("Kick")
+            if RemoteFunction and RemoteFunction:IsA("RemoteFunction") then
+                RemoteFunction:InvokeServer(Players[SelectedPlayer])
+                OrionLib:MakeNotification({
+                    Name = "Success",
+                    Content = "Kicked " .. SelectedPlayer,
+                    Image = "rbxassetid://4483345998",
+                    Time = 3
+                })
+            else
+                OrionLib:MakeNotification({
+                    Name = "Error",
+                    Content = "Kick function not found!",
+                    Image = "rbxassetid://4483345998",
+                    Time = 3
+                })
+            end
+        else
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "No player selected!",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
+        end
+    end
+})
+
 
         
 
