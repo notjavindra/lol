@@ -71,7 +71,7 @@ Tab:AddButton({
         if ScreenGui and ScreenGui:FindFirstChild("Codes") then
             local CodesUI = ScreenGui.Codes.Main
             local InputBox = CodesUI.Input.TextBox
-            local RedeemButton = CodesUI.Reedeem.TextButton
+            local RedeemButton = CodesUI.Redeem.TextButton
             
             for _, code in ipairs(Codes) do
                 InputBox.Text = code
