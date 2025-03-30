@@ -119,32 +119,42 @@ Tab:AddToggle({
 })
 
 local Players = game:GetService("Players")
+local SelectedPlayer = nil -- Track the selected player
 
+-- Function to get and update the player list
+local function updatePlayerList()
+    local playerNames = {}
+
+    for _, player in ipairs(Players:GetPlayers()) do
+        table.insert(playerNames, player.Name)
+    end
+
+    -- Update the dropdown with the current player names
+    Tab:UpdateDropdown({
+        Name = "Select Player",
+        Options = playerNames
+    })
+end
+
+-- Dropdown to select a player
 Tab:AddDropdown({
     Name = "Select Player",
     Default = nil,
-    Options = {},
+    Options = {},  -- This will be populated dynamically
     Callback = function(Value)
         SelectedPlayer = Value -- Store selected player
     end
 })
 
+-- Button to refresh the player list in the dropdown
 Tab:AddButton({
     Name = "Refresh Player List",
     Callback = function()
-        local playerNames = {}
-
-        for _, player in ipairs(Players:GetPlayers()) do
-            table.insert(playerNames, player.Name)
-        end
-
-        Tab:UpdateDropdown({
-            Name = "Select Player",
-            Options = playerNames
-        })
+        updatePlayerList()
     end
 })
 
+-- Button to kill the selected player
 Tab:AddButton({
     Name = "Kill Player",
     Callback = function()
@@ -177,6 +187,7 @@ Tab:AddButton({
     end
 })
 
+-- Button to kick the selected player
 Tab:AddButton({
     Name = "Kick Player",
     Callback = function()
@@ -208,6 +219,9 @@ Tab:AddButton({
         end
     end
 })
+
+-- Initialize player list on script start
+updatePlayerList()
 
 
         
