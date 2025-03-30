@@ -118,6 +118,42 @@ Tab:AddToggle({
     end
 })
 
+Tab:AddButton({
+    Name = "Kill",
+    Callback = function()
+        local RemoteFunction = game.ReplicatedStorage.Remotes:FindFirstChild("Kill")
+
+        if RemoteFunction and RemoteFunction:IsA("RemoteFunction") then
+            local success, response = pcall(function()
+                return RemoteFunction:InvokeServer()
+            end)
+
+            if success then
+                OrionLib:MakeNotification({
+                    Name = "Success",
+                    Content = "Kill command executed!",
+                    Image = "rbxassetid://4483345998",
+                    Time = 3
+                })
+            else
+                OrionLib:MakeNotification({
+                    Name = "Error",
+                    Content = "Failed: " .. tostring(response),
+                    Image = "rbxassetid://4483345998",
+                    Time = 3
+                })
+            end
+        else
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Kill function not found!",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
+        end
+    end
+})
+
         
 
 Tab:AddButton({
