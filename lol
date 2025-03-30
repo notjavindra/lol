@@ -119,13 +119,13 @@ Tab:AddToggle({
 })
 
 Tab:AddButton({
-    Name = "Kill",
+    Name = "AddStat",
     Callback = function()
-        local RemoteFunction = game.ReplicatedStorage.Remotes:FindFirstChild("Kill")
+        local RemoteEvent = game.ReplicatedStorage.Remotes:FindFirstChild("AddStat")
 
-        if RemoteFunction and RemoteFunction:IsA("RemoteFunction") then
+        if RemoteEvent and RemoteEvent:IsA("RemoteEvent") then
             local success, response = pcall(function()
-                return RemoteFunction:InvokeServer()
+                return RemoteEvent:FireServer()
             end)
 
             if success then
