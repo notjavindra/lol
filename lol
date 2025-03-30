@@ -31,7 +31,6 @@ local Codes = {
     "SPRING"
 }
 
--- Notification Upon Login
 OrionLib:MakeNotification({
     Name = "Logged In!",
     Content = "Enjoy " .. Player.Name .. "!",
@@ -86,6 +85,21 @@ spawn(function()
         wait(0.0)
     end
 end)
+
+Tab:AddToggle({
+    Name = "Auto Spin",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            while Value do
+                game.ReplicatedStorage.Remotes.Spin:FireServer()
+                wait(0.5) -- Adjust the delay as needed
+            end
+        end
+    end
+})
+
+        
 
 Tab:AddButton({
     Name = "Auto Redeem Codes",
