@@ -78,6 +78,64 @@ spawn(function()
     end
 end)
 
+Tab:AddButton({
+    Name = "Bring all Food (Beta)",
+    Callback = function()
+        -- Check if Game and Food folders exist
+        if not workspace:FindFirstChild("Game") then
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Game folder not found in workspace!",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+            return
+        end
+        
+        if not workspace.Game:FindFirstChild("Food") then
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Food folder not found in Game!",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+            return
+        end
+        
+        -- Get player's position
+        local character = Player.Character
+        if not character or not character:FindFirstChild("HumanoidRootPart") then
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Character not found!",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+            return
+        end
+        
+        local playerPosition = character.HumanoidRootPart.Position
+        local foodBrought = 0
+        
+        -- Find all models in the Food folder and bring them to the player
+        for _, foodItem in pairs(workspace.Game.Food:GetDescendants()) do
+            if foodItem:IsA("Model") and foodItem:FindFirstChild("Hitbox") then
+                -- Teleport the food to the player
+                foodItem.Hitbox.CFrame = CFrame.new(playerPosition)
+                foodItem.Hitbox.Anchored = true -- Anchor it so it stays in place
+                wait(0.1) -- Small delay to prevent game lag
+                foodBrought = foodBrought + 1
+            end
+        end
+        
+        OrionLib:MakeNotification({
+            Name = "Success",
+            Content = "Brought " .. foodBrought .. " food items to your position!",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
 
 Tab:AddButton({
     Name = "Auto Redeem Codes",
