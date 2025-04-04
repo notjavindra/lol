@@ -118,17 +118,17 @@ Tab:AddToggle({
     end
 })
 
-local AutoSpin = false -- Variable to track toggle state
+local AutoGift = false -- Variable to track toggle state
 
 Tab:AddToggle({
     Name = "Auto Claim Gifts",
     Default = false
     Callback = function(Value)
-        AutoSpin = Value -- Update toggle state
+        AutoGift = Value -- Update toggle state
 
-        if AutoSpin then
+        if AutoGift then
             spawn(function()
-                while AutoSpin do
+                while AutoGift do
                     local success, response = pcall(function()
                         return game.ReplicatedStorage.Remotes.Gift:InvokeServer()
                     end)
