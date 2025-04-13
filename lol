@@ -122,7 +122,7 @@ local AutoGift = false -- Variable to track toggle state
 
 Tab:AddToggle({
     Name = "Auto Claim Gifts",
-    Default = false
+    Default = false,
     Callback = function(Value)
         AutoGift = Value -- Update toggle state
 
